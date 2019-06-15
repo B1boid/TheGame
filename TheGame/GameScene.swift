@@ -6,10 +6,8 @@ class GameScene: SKScene {
     //Герой
     var player:SKSpriteNode!
     
-    
     //Для джостика
     let joystick = Joystick()
-    let playerSpeed: CGFloat = 150.0
     var isMoving:Bool!
     
     //Эта функция вызывается когда создается сцена, то есть самой первой
