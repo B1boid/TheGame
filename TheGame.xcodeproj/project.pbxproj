@@ -17,6 +17,7 @@
 		46B81DBA22B5504C00784B31 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 46B81DB822B5504C00784B31 /* LaunchScreen.storyboard */; };
 		46B81DC522B5504C00784B31 /* TheGameTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B81DC422B5504C00784B31 /* TheGameTests.swift */; };
 		46B81DD022B5504C00784B31 /* TheGameUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B81DCF22B5504C00784B31 /* TheGameUITests.swift */; };
+		46E31EB222B583E0006330F8 /* Joystick.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46E31EB122B583E0006330F8 /* Joystick.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +54,7 @@
 		46B81DCB22B5504C00784B31 /* TheGameUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TheGameUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		46B81DCF22B5504C00784B31 /* TheGameUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheGameUITests.swift; sourceTree = "<group>"; };
 		46B81DD122B5504C00784B31 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		46E31EB122B583E0006330F8 /* Joystick.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Joystick.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +106,7 @@
 			isa = PBXGroup;
 			children = (
 				46B81DA922B5504B00784B31 /* AppDelegate.swift */,
+				46E31EB122B583E0006330F8 /* Joystick.swift */,
 				46B81DAB22B5504B00784B31 /* GameScene.sks */,
 				46B81DAD22B5504B00784B31 /* Actions.sks */,
 				46B81DAF22B5504B00784B31 /* GameScene.swift */,
@@ -268,6 +271,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				46B81DB022B5504B00784B31 /* GameScene.swift in Sources */,
+				46E31EB222B583E0006330F8 /* Joystick.swift in Sources */,
 				46B81DB222B5504B00784B31 /* GameViewController.swift in Sources */,
 				46B81DAA22B5504B00784B31 /* AppDelegate.swift in Sources */,
 			);
