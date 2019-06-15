@@ -4,7 +4,7 @@ import SpriteKit
 
 class Joystick: SKNode {
     
-    
+    //tt
     var joystick =  SKShapeNode()
     var stick = SKShapeNode()
     
