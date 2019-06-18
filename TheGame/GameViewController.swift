@@ -1,11 +1,3 @@
-//
-//  GameViewController.swift
-//  TheGame
-//
-//  Created by Aleksandr Vorobev on 15.06.2019.
-//  Copyright © 2019 Aleksandr Vorobev. All rights reserved.
-//
-
 import UIKit
 import SpriteKit
 import GameplayKit

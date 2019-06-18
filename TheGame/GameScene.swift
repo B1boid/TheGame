@@ -10,6 +10,13 @@ class GameScene: SKScene {
     let joystick = Joystick()
     var isMoving:Bool!
     
+    //Камера
+    let cam = SKCameraNode()
+    
+    var fon:SKSpriteNode!
+    
+
+    
     //Эта функция вызывается когда создается сцена, то есть самой первой
     override func didMove(to view: SKView) {
         
@@ -21,12 +28,21 @@ class GameScene: SKScene {
         self.addChild(player)
         
         //Инит джостика
-        joystick.position = CGPoint(x: size.width/6-size.width/2, y:size.height/6-size.height/2)
+        joystick.position = CGPoint(x: size.width/6-size.width/2, y:size.height/5-size.height/2)
+        joystick.zPosition = 10
         addChild(joystick)
         isMoving = false
+        
+        //Инит говно фон
+        fon = SKSpriteNode(imageNamed: "fon")
+        fon.position = CGPoint(x: 0, y: 0)
+        fon.zPosition = -10
+        self.addChild(fon)
+        //камера
+        self.camera = cam
     
         //Физика
-        self.physicsBody = SKPhysicsBody(edgeLoopFrom: frame)
+        //self.physicsBody = SKPhysicsBody(edgeLoopFrom: frame) не разрешает выходить за границы экрана
         self.physicsWorld.gravity = CGVector(dx: 0, dy: 0)
         
     }
@@ -34,10 +50,23 @@ class GameScene: SKScene {
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         //Перемещаем по джостику
-        if isMoving{
-            joystick.moveJoystick(touch: touches.first!)
-            joystick.joystickAction = {(x: CGFloat,y : CGFloat) in
-            self.player.physicsBody?.velocity = (CGVector(dx: x*100, dy: y*100))}
+        var flag:Bool!
+        flag = true
+        for touch in touches {
+            let location = touch.location(in: self)
+            if location.x < 0 && location.y < size.height/6 {
+                if isMoving{
+                    flag = false
+                    joystick.moveJoystick(touch: touches.first!)
+                    joystick.joystickAction = {(x: CGFloat,y : CGFloat) in
+                        self.player.physicsBody?.velocity = (CGVector(dx: x*100, dy: y*100))}
+                }
+            }
+        }
+        if flag {
+            isMoving = false
+            joystick.stick.position = joystick.joystick.position
+            player!.physicsBody!.isResting = true
         }
     }
     
@@ -46,7 +75,7 @@ class GameScene: SKScene {
         for touch in touches {
             let location = touch.location(in: self)
             // Чек область под джостик
-            if location.x < -size.width/10 && location.y < size.height/6 {
+            if location.x < 0 && location.y < size.height/6 {
                 isMoving = true
             }
         }
@@ -64,27 +93,8 @@ class GameScene: SKScene {
         }
     }
     
-    //Пока не использую нигде но пусть будет тут
-    private func shouldMove(currentPosition: CGPoint, touchPosition: CGPoint) -> Bool {
-        return abs(currentPosition.x - touchPosition.x) > player!.frame.width / 2 ||
-            abs(currentPosition.y - touchPosition.y) > player!.frame.height/2
-    }
-    
     override func update(_ currentTime: TimeInterval) {
-        
-        //Тестил движение по нажатию на экран
-//        if let touch = location {
-//            let currentPosition = player!.position
-//            if shouldMove(currentPosition: currentPosition, touchPosition: touch) {
-//                let angle = atan2(currentPosition.y - touch.y, currentPosition.x - touch.x)+CGFloat(Double.pi)
-//                let velocotyX = playerSpeed * cos(angle)
-//                let velocityY = playerSpeed * sin(angle)
-//                let newVelocity = CGVector(dx: velocotyX, dy: velocityY)
-//                player.physicsBody?.velocity  = newVelocity
-//            }else {
-//                player!.physicsBody!.isResting = true
-//            }
-//        }
+        //cam.position = player.position следить за героем
     }
     
 }

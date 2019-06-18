@@ -1,4 +1,3 @@
-
 import Foundation
 import SpriteKit
 
@@ -52,7 +51,7 @@ class Joystick: SKNode {
         joystick = SKShapeNode(path: joystickPath.cgPath, centered: true)
         joystick.lineWidth = 2
         joystick.strokeColor = SKColor(white: 1, alpha: 0.5)
-        joystick.fillColor = SKColor.gray
+        //joystick.fillColor = SKColor.gray
         
      
         let stickRect = CGRect(x: 0, y: 0, width: 40, height: 40)
@@ -62,6 +61,7 @@ class Joystick: SKNode {
         stick.fillColor = SKColor.gray
         stick.lineWidth = 4
         stick.strokeColor = SKColor(white: 0, alpha: 0.5)
+        stick.alpha = 0.5
         
         super.init()
         
