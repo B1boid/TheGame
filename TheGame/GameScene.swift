@@ -9,52 +9,65 @@ class GameScene: SKScene {
     //Для джостика
     let joystick = Joystick()
     var isMoving:Bool!
+    let deltaJoystick = SKLabelNode() //это костыль,мы не будем пользоваться UI как таковым, у нас все расположения интерфейса будут высчитываться с помощью координат героя + дельты константы
     
     //Камера
     let cam = SKCameraNode()
     
+    //Элементы карты
     var fon:SKSpriteNode!
     
-
     
     //Эта функция вызывается когда создается сцена, то есть самой первой
     override func didMove(to view: SKView) {
+        creatingPlayer()
+        creatingJoystick()
+        creatingFon()
         
-        //Инит героя
+        //Камера
+        self.camera = cam
+    
+        //Физика
+        self.physicsBody?.isDynamic = true
+        self.physicsWorld.gravity = CGVector(dx: 0, dy: 0)
+        
+    }
+    
+    func creatingPlayer(){
         player = SKSpriteNode(imageNamed: "1")
         player.physicsBody =  SKPhysicsBody(rectangleOf: player.size)
         player.physicsBody?.allowsRotation = false
         player.position = CGPoint(x: 0, y: 0)
         self.addChild(player)
-        
-        //Инит джостика
-        joystick.position = CGPoint(x: size.width/6-size.width/2, y:size.height/5-size.height/2)
+    }
+    
+    func creatingJoystick(){
+        joystick.position = CGPoint.zero //все равно какая, update изменит
         joystick.zPosition = 10
-        addChild(joystick)
+        self.addChild(joystick)
         isMoving = false
         
-        //Инит говно фон
-        fon = SKSpriteNode(imageNamed: "fon")
-        fon.position = CGPoint(x: 0, y: 0)
-        fon.zPosition = -10
-        self.addChild(fon)
-        //камера
-        self.camera = cam
+        deltaJoystick.text=""
+        deltaJoystick.position = CGPoint(x: size.width/6-size.width/2, y:size.height/5-size.height/2)
+        self.addChild(deltaJoystick)
+    }
     
-        //Физика
-        //self.physicsBody = SKPhysicsBody(edgeLoopFrom: frame) не разрешает выходить за границы экрана
-        self.physicsWorld.gravity = CGVector(dx: 0, dy: 0)
-        
+    func creatingFon(){
+        fon = SKSpriteNode(imageNamed: "fon")
+        fon.position = CGPoint.zero
+        fon.zPosition = -10
+        fon.setScale(5)
+        self.addChild(fon)
     }
     
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        //Перемещаем по джостику
+        //Перемещение по джостику
         var flag:Bool!
         flag = true
         for touch in touches {
             let location = touch.location(in: self)
-            if location.x < 0 && location.y < size.height/6 {
+            if location.x < player.position.x && location.y <  player.position.y - deltaJoystick.position.y {
                 if isMoving{
                     flag = false
                     joystick.moveJoystick(touch: touches.first!)
@@ -75,7 +88,7 @@ class GameScene: SKScene {
         for touch in touches {
             let location = touch.location(in: self)
             // Чек область под джостик
-            if location.x < 0 && location.y < size.height/6 {
+            if location.x <  player.position.x && location.y <  player.position.y - deltaJoystick.position.y {
                 isMoving = true
             }
         }
@@ -84,7 +97,7 @@ class GameScene: SKScene {
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
             let location = touch.location(in: self)
-            if location.x < -size.width/10 && location.y < size.height/6 {
+            if location.x <  player.position.x && location.y <  player.position.y - deltaJoystick.position.y {
                 // Возвращем джостик в исходное положение,герой остановка
                 isMoving = false
                 joystick.stick.position = joystick.joystick.position
@@ -94,7 +107,11 @@ class GameScene: SKScene {
     }
     
     override func update(_ currentTime: TimeInterval) {
-        //cam.position = player.position следить за героем
+        cam.position = player.position
+        joystick.position.x = player.position.x + deltaJoystick.position.x
+        joystick.position.y = player.position.y + deltaJoystick.position.y
     }
+    
+    
     
 }
